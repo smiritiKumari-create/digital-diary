@@ -93,7 +93,7 @@ public class Main {
         int id = Utils.readInt(sc, "ID: ");
         String title = Utils.readNonEmptyString(sc, "Title: ");
         String content = Utils.readNonEmptyString(sc, "Content: ");
-        String date = Utils.readNonEmptyString(sc, "Date (YYYY-MM-DD): ");
+        String date = Utils.readValidDate(sc, "Date (YYYY-MM-DD): ");
         String mood = Utils.readNonEmptyString(sc, "Mood: ");
         store.getDiaryBook().addEntry(new DiaryEntry(id, title, content, date, mood));
         System.out.println("Entry added.");
@@ -112,13 +112,41 @@ public class Main {
         int id = Utils.readInt(sc, "ID to update: ");
         DiaryEntry e = store.getDiaryBook().getEntryById(id);
         System.out.println("Current: " + e);
-        String title = Utils.readNonEmptyString(sc, "New title: ");
-        String content = Utils.readNonEmptyString(sc, "New content: ");
-        String mood = Utils.readNonEmptyString(sc, "New mood: ");
-        e.setTitle(title);
-        e.setContent(content);
-        e.setMood(mood);
-        System.out.println("Updated.");
+
+        boolean updating = true;
+        while (updating) {
+            System.out.println("\nWhat would you like to update?");
+            System.out.println("1. Title");
+            System.out.println("2. Content");
+            System.out.println("3. Date");
+            System.out.println("4. Mood");
+            System.out.println("5. Done");
+            int choice = Utils.readInt(sc, "Choice: ");
+            switch (choice) {
+                case 1:
+                    e.setTitle(Utils.readNonEmptyString(sc, "New title: "));
+                    System.out.println("Title updated.");
+                    break;
+                case 2:
+                    e.setContent(Utils.readNonEmptyString(sc, "New content: "));
+                    System.out.println("Content updated.");
+                    break;
+                case 3:
+                    e.setDate(Utils.readValidDate(sc, "New date (YYYY-MM-DD): "));
+                    System.out.println("Date updated.");
+                    break;
+                case 4:
+                    e.setMood(Utils.readNonEmptyString(sc, "New mood: "));
+                    System.out.println("Mood updated.");
+                    break;
+                case 5:
+                    updating = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+        System.out.println("Updated: " + e);
     }
 
     private static void deleteEntry() throws DiaryNotFoundException {

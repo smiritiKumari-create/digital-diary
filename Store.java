@@ -8,9 +8,6 @@ public class Store {
     private List<Admin> admins = new ArrayList<>();
     private Queue<DiaryEntry> reviewQueue = new LinkedList<>();
     private List<DiaryEntry> reviewedEntries = new ArrayList<>();
-
-    // Admins are injected rather than constructed internally, so Store doesn't
-    // need to know what the default login account is (dependency injection).
     public Store(List<Admin> initialAdmins) {
         admins.addAll(initialAdmins);
     }
